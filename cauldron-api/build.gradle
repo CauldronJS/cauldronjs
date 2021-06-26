@@ -1,0 +1,11 @@
+plugins {
+  id 'java-library'
+  id 'cauldronjs.java-conventions'
+}
+
+description 'cauldronapi'
+
+dependencies {
+  implementation 'org.reflections:reflections:0.9.12'
+  implementation 'net.java.dev.jna:jna:5.8.0'
+}

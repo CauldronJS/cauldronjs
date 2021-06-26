@@ -1,0 +1,42 @@
+plugins {
+  id 'groovy'
+  id 'java'
+}
+
+group 'com.cauldronjs'
+version '2.0.0'
+
+java {
+  sourceCompatibility 1.16
+  withSourcesJar()
+  withJavadocJar()
+}
+
+repositories {
+  mavenCentral()
+}
+
+dependencies {
+  testImplementation 'junit:junit:4.13'
+}
+
+tasks.withType(JavaCompile) {
+  options.encoding = 'UTF-8'
+}
+
+task embedLibrary(type: Copy) {
+  from('lib') {
+    include '**/*.js'
+    include '**/*.json'
+    exclude '**/__tests__'
+    exclude 'node_modules'
+    exclude 'jsconfig.json'
+  }
+  into 'src/main/resources'
+
+  includeEmptyDirs = true
+}
+
+test {
+  useJUnitPlatform()
+}

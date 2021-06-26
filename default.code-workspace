@@ -1,0 +1,20 @@
+{
+  "folders": [
+    {
+      "path": "./cauldron-api"
+    },
+    {
+      "path": "./cauldron-forge"
+    },
+    {
+      "path": "./cauldron-paper"
+    },
+    {
+      "path": "./cauldron-sponge"
+    }
+  ],
+  "settings": {
+    "files.autoGuessEncoding": true,
+    "files.encoding": "utf8"
+  }
+}

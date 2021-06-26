@@ -1,0 +1,9 @@
+plugins {
+  id 'cauldronjs.java-conventions'
+}
+
+description 'cauldronforge'
+
+dependencies {
+ implementation project(':cauldronapi')
+}
