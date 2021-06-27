@@ -1,16 +1,16 @@
 {
   "folders": [
     {
-      "path": "./cauldron-api"
+      "path": "./cauldronapi"
     },
     {
-      "path": "./cauldron-forge"
+      "path": "./cauldronforge"
     },
     {
-      "path": "./cauldron-paper"
+      "path": "./cauldronpaper"
     },
     {
-      "path": "./cauldron-sponge"
+      "path": "./cauldronsponge"
     }
   ],
   "settings": {
