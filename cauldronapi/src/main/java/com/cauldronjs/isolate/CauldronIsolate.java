@@ -1,10 +1,10 @@
 package com.cauldronjs.isolate;
 
 import java.io.File;
-import java.lang.System.Logger.Level;
 import java.nio.file.Paths;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.logging.Level;
 
 import com.cauldronjs.Cauldron;
 import com.cauldronjs.bindings.BindingProvider;
@@ -108,7 +108,7 @@ public class CauldronIsolate extends EventEmitter implements Isolate {
         this.isInitialized = true;
         this.emit("activate");
       } catch (JsException ex) {
-        this.cauldron.log(Level.ERROR, "An error occured while loading the core library: {0}", ex);
+        this.cauldron.log(Level.SEVERE, "An error occurred while loading the core library: {0}", ex);
       }
     }
     this.cauldron.scheduleRepeatingTask(() -> this.emit("tick"), 50, 50);

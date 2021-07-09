@@ -1,7 +1,7 @@
 package com.cauldronjs.isolate;
 
-import java.lang.System.Logger.Level;
 import java.util.HashMap;
+import java.util.logging.Level;
 
 import com.cauldronjs.Cauldron;
 
@@ -39,7 +39,7 @@ public class IsolateManager {
     try {
       isolate.initialize();
     } catch (Exception ex) {
-      this.cauldron.log(Level.ERROR, "Failed to initialize new isolate, {0}", ex);
+      this.cauldron.log(Level.SEVERE, "Failed to initialize new isolate, {0}", ex);
       return null;
     }
 

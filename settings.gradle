@@ -8,7 +8,4 @@
  */
 
 rootProject.name = 'cauldronjs-rework'
-include ':cauldronapi'
-include ':cauldronsponge'
-include ':cauldronforge'
-include ':cauldronpaper'
+include 'cauldronapi', 'cauldronpaper', 'cauldronforge', 'cauldronsponge'

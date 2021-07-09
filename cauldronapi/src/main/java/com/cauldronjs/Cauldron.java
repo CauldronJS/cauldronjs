@@ -2,10 +2,11 @@ package com.cauldronjs;
 
 import java.io.File;
 import java.io.InputStream;
-import java.lang.System.Logger.Level;
+import java.util.logging.Level;
 
 import com.cauldronjs.config.PlatformConfig;
 
+import com.cauldronjs.isolate.IsolateManager;
 import org.graalvm.polyglot.Value;
 
 public interface Cauldron {
@@ -15,6 +16,7 @@ public interface Cauldron {
   void log(Level level, String content, Object... args);
 
   PlatformConfig getPlatformConfig();
+  IsolateManager getIsolateManager();
   File getWorkingDirectory();
   InputStream getResourceFile(String filename);
 

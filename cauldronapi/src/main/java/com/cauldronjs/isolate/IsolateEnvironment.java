@@ -2,10 +2,10 @@ package com.cauldronjs.isolate;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.lang.System.Logger.Level;
 import java.nio.file.AccessDeniedException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Level;
 
 public class IsolateEnvironment implements Environment {
   final Isolate isolate;
@@ -33,7 +33,7 @@ public class IsolateEnvironment implements Environment {
     } catch (FileNotFoundException ex) {
       // ignore
     } catch (IOException ex) {
-      this.isolate.getCauldron().log(Level.ERROR, "Failed to read from .env, {0}", ex);
+      this.isolate.getCauldron().log(Level.SEVERE, "Failed to read from .env, {0}", ex);
     }
   }
 

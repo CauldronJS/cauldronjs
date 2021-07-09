@@ -1,5 +1,5 @@
 plugins {
-  id 'cauldronjs.java-conventions'
+  id 'com.cauldronjs.impl'
 }
 
 description 'cauldronpaper'

@@ -1,11 +1,45 @@
 plugins {
-  id 'java-library'
-  id 'cauldronjs.java-conventions'
+  id 'groovy'
+  id 'java'
 }
 
+group 'com.cauldronjs'
 description 'cauldronapi'
+version '2.0.0'
+
+java {
+  sourceCompatibility 1.16
+  withSourcesJar()
+  withJavadocJar()
+}
+
+repositories {
+  mavenCentral()
+}
 
 dependencies {
   implementation 'org.reflections:reflections:0.9.12'
   implementation 'net.java.dev.jna:jna:5.8.0'
+  testImplementation 'junit:junit:4.13'
+}
+
+tasks.withType(JavaCompile) {
+  options.encoding = 'UTF-8'
+}
+
+task embedLibrary(type: Copy) {
+  from('lib') {
+    include '**/*.js'
+    include '**/*.json'
+    exclude '**/__tests__'
+    exclude 'node_modules'
+    exclude 'jsconfig.json'
+  }
+  into 'src/main/resources'
+
+  includeEmptyDirs = true
+}
+
+test {
+  useJUnitPlatform()
 }

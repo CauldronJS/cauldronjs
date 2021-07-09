@@ -1,30 +1,20 @@
 package com.cauldronjs.bindings;
 
-import java.lang.System.Logger.Level;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.function.Function;
+import java.util.logging.Level;
 
+import com.cauldronjs.Reflections;
 import com.cauldronjs.isolate.Isolate;
 
 import org.graalvm.polyglot.Value;
 
-import org.reflections.Reflections;
-import org.reflections.scanners.FieldAnnotationsScanner;
-import org.reflections.scanners.SubTypesScanner;
-import org.reflections.scanners.TypeAnnotationsScanner;
-
 public class IsolateBindingProvider implements BindingProvider {
-  static final Reflections reflections = new Reflections(
-    "com.cauldronjs", 
-    new SubTypesScanner(),
-    new TypeAnnotationsScanner(),
-    new FieldAnnotationsScanner()
-  );
-  public static String BOUND_VALUE_FIELD = "__isBound";
+  public static String BOUND_VALUE_FIELD = "$$isBound";
 
   final Isolate isolate;
   final HashMap<String, Object> bindings = new HashMap<>();
@@ -39,10 +29,10 @@ public class IsolateBindingProvider implements BindingProvider {
 
   @Override
   public void initialize() {
-    var internalTypes = reflections.getTypesAnnotatedWith(InternalBinding.class);
-    var internalFields = reflections.getFieldsAnnotatedWith(InternalBinding.class);
-    var globalTypes = reflections.getTypesAnnotatedWith(GlobalBinding.class);
-    var globalFields = reflections.getFieldsAnnotatedWith(GlobalBinding.class);
+    var internalTypes = Reflections.CAULDRON.getTypesAnnotatedWith(InternalBinding.class);
+    var internalFields = Reflections.CAULDRON.getFieldsAnnotatedWith(InternalBinding.class);
+    var globalTypes = Reflections.CAULDRON.getTypesAnnotatedWith(GlobalBinding.class);
+    var globalFields = Reflections.CAULDRON.getFieldsAnnotatedWith(GlobalBinding.class);
 
     internalTypes.forEach(this::registerInternalType);
     internalFields.forEach(this::registerInternalField);
@@ -136,7 +126,7 @@ public class IsolateBindingProvider implements BindingProvider {
         instance = chosenCtr.newInstance(argsList.toArray());
       } else {
         this.isolate.getCauldron().log(
-          Level.ERROR,
+          Level.SEVERE,
           "Cannot get binding for {0}, no default constructor found",
           type.getSimpleName()
         );
@@ -144,7 +134,7 @@ public class IsolateBindingProvider implements BindingProvider {
     } catch (InvocationTargetException | IllegalAccessException | InstantiationException ex) {
       // log
       this.isolate.getCauldron().log(
-        Level.ERROR,
+        Level.SEVERE,
         "Failed to get binding for {0}: {1}",
         type.getSimpleName(),
         ex.toString()
