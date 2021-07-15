@@ -5,35 +5,33 @@ import com.cauldronjs.serializer.SerializedField;
 import com.cauldronjs.serializer.SerializedObject;
 
 import java.io.*;
-import java.lang.reflect.Array;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.atomic.AtomicReference;
 
 public class ChildProcess extends EventEmitter {
   @SerializedObject
   public static class ChildProcessResult {
-    @SerializedField("pid")
-    final long pid;
-    @SerializedField("output")
-    final String[] output;
-    @SerializedField("stdout")
-    final String stdout;
-    @SerializedField("stderr")
-    final String stderr;
-    @SerializedField("status")
+    @SerializedField
+    long pid;
+    @SerializedField
+    String[] output;
+    @SerializedField
+    String stdout;
+    @SerializedField
+    String stderr;
+    @SerializedField
     int status;
-    @SerializedField("signal")
-    final String signal;
-    @SerializedField("error")
-    final Exception error;
+    @SerializedField
+    String signal;
+    @SerializedField
+    Exception error;
+
+    private ChildProcessResult() {
+    }
 
     private ChildProcessResult(long pid, String stdout, String stderr, int status, String signal, Exception error) {
       this.pid = pid;
-      this.output = new String[] {
-        "",
-        stdout,
-        stderr
-      };
+      this.output = new String[] { "", stdout, stderr };
       this.stdout = stdout;
       this.stderr = stderr;
       this.status = status;
@@ -62,27 +60,24 @@ public class ChildProcess extends EventEmitter {
     var commandWithArgs = new String[1 + args.length];
     commandWithArgs[0] = command;
     System.arraycopy(args, 0, commandWithArgs, 1, args.length);
-    var builder = new ProcessBuilder(commandWithArgs)
-      .directory(options.getCwd())
-      .redirectOutput(options.getOutputRedirect())
-      .redirectInput(options.getInputRedirect())
-      .redirectError(options.getErrorRedirect());
+    var builder = new ProcessBuilder(commandWithArgs).directory(options.getCwd())
+        .redirectOutput(options.getOutputRedirect()).redirectInput(options.getInputRedirect())
+        .redirectError(options.getErrorRedirect());
     var process = new ChildProcess(builder.start(), options.getUid());
     process.pipeStreams();
     process.runner.start();
-    process.on("finish", (eventArgs) -> process.result.status = (int)eventArgs[0]);
+    process.on("finish", (eventArgs) -> process.result.status = (int) eventArgs[0]);
     return process;
   }
 
-  public static ChildProcess spawnSync(String command, String[] args, SpawnOptions options) throws IOException, InterruptedException {
+  public static ChildProcess spawnSync(String command, String[] args, SpawnOptions options)
+      throws IOException, InterruptedException {
     var commandWithArgs = new String[1 + args.length];
     commandWithArgs[0] = command;
     System.arraycopy(args, 0, commandWithArgs, 1, args.length);
-    var builder = new ProcessBuilder(commandWithArgs)
-      .directory(options.getCwd())
-      .redirectOutput(options.getOutputRedirect())
-      .redirectInput(options.getInputRedirect())
-      .redirectError(options.getErrorRedirect());
+    var builder = new ProcessBuilder(commandWithArgs).directory(options.getCwd())
+        .redirectOutput(options.getOutputRedirect()).redirectInput(options.getInputRedirect())
+        .redirectError(options.getErrorRedirect());
     var process = new ChildProcess(builder.start(), options.getUid());
     process.pipeStreams();
     process.isAsync = false;
@@ -145,9 +140,9 @@ public class ChildProcess extends EventEmitter {
 
       try {
         String input, error = null;
-        while (ChildProcess.this.process.isAlive() &&
-          ((input = inputReader.readLine()) != null || (error = errorReader.readLine()) != null) &&
-          (!isEof(input) || !isEof(error))) {
+        while (ChildProcess.this.process.isAlive()
+            && ((input = inputReader.readLine()) != null || (error = errorReader.readLine()) != null)
+            && (!isEof(input) || !isEof(error))) {
           if (input != null) {
             ChildProcess.this.emit("stdin", input);
           }

@@ -6,7 +6,6 @@ import com.cauldronjs.exceptions.JsException;
 import com.cauldronjs.isolate.IsolateManager;
 import com.cauldronjs.paper.commands.SpigotCommandProvider;
 import com.cauldronjs.paper.events.SpigotEventProvider;
-import org.bukkit.event.server.PluginEnableEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.graalvm.polyglot.Value;
 
@@ -29,8 +28,8 @@ public class PaperCauldron extends JavaPlugin implements Cauldron {
     this.commandProvider = new SpigotCommandProvider();
   }
 
-   @Override
-   public void onEnable() {
+  @Override
+  public void onEnable() {
     var mainIsolate = this.isolateManager.getCurrentThreadIsolate();
     mainIsolate.initialize();
     try {
@@ -41,7 +40,7 @@ public class PaperCauldron extends JavaPlugin implements Cauldron {
     } catch (JsException ex) {
       this.log(Level.SEVERE, "Failed to start Cauldron: {0}", ex);
     }
-   }
+  }
 
   @Override
   public boolean isRunning() {
@@ -60,46 +59,56 @@ public class PaperCauldron extends JavaPlugin implements Cauldron {
 
   @Override
   public PlatformConfig getPlatformConfig() {
-    return null;
+    return this.platformConfig;
   }
 
   @Override
   public IsolateManager getIsolateManager() {
-    return null;
+    return this.isolateManager;
   }
 
   @Override
   public File getWorkingDirectory() {
-    return null;
+    return this.getDataFolder();
   }
 
   @Override
   public InputStream getResourceFile(String filename) {
-    return null;
+    return this.getResource(filename);
   }
 
   @Override
   public int scheduleRepeatingTask(Value fn, int interval, int timeout) {
-    return 0;
+    return this.getServer().getScheduler().scheduleSyncRepeatingTask(this, fn::executeVoid, interval, timeout);
   }
 
   @Override
   public int scheduleTask(Value fn, int timeout) {
-    return 0;
+    return this.getServer().getScheduler().scheduleSyncDelayedTask(this, fn::executeVoid, timeout);
   }
 
   @Override
   public int scheduleRepeatingTask(Runnable runnable, int interval, int timeout) {
-    return 0;
+    return this.getServer().getScheduler().scheduleSyncRepeatingTask(this, runnable, interval, timeout);
   }
 
   @Override
   public int scheduleTask(Runnable runnable, int timeout) {
-    return 0;
+    return this.getServer().getScheduler().scheduleSyncDelayedTask(this, runnable, timeout);
   }
 
   @Override
   public boolean cancelTask(int id) {
+    var scheduler = this.getServer().getScheduler();
+    if (scheduler.isCurrentlyRunning(id)) {
+      this.log(Level.SEVERE, "Cannot cancel an already started task");
+      return false;
+    }
+    if (scheduler.isQueued(id)) {
+      scheduler.cancelTask(id);
+      return true;
+    }
+    this.log(Level.SEVERE, "Cannot find a task with the ID {0}, unable to cancel", id);
     return false;
   }
 }

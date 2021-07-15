@@ -1,7 +1,6 @@
 package com.cauldronjs.paper.events;
 
 import com.cauldronjs.paper.PaperCauldron;
-import org.bukkit.Bukkit;
 import org.bukkit.event.Event;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -36,12 +35,7 @@ public class SpigotEventProvider {
         handler.execute(event);
       }
     };
-    this.cauldron.getServer().getPluginManager().registerEvent(
-      type,
-      listener,
-      EventPriority.NORMAL,
-      executor,
-      this.cauldron
-    );
+    this.cauldron.getServer().getPluginManager().registerEvent(type, listener, EventPriority.NORMAL, executor,
+        this.cauldron);
   }
 }

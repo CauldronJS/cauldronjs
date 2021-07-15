@@ -7,7 +7,6 @@ bin
 .vscode
 .settings
 .idea
-gradle
 .project
 
 # ignore this directory because it contains the server JAR files for each project

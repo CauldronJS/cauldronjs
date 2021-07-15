@@ -17,6 +17,8 @@ const mainPackageCache = Object.create(null);
 
 const transformers = [jsTransformer, jsonTransformer, definitionTransformer];
 
+const httpRegex = /^http(s)*:\/\//gi;
+
 function updateChildren(parent, child, scan) {
   const children = parent && parent.children;
   if (children && !(scan && children.includes(child))) {
@@ -253,6 +255,10 @@ class Module {
       } else {
         return NativeModule.require(request);
       }
+    }
+
+    if (httpRegex.test(request)) {
+      // it's a URL, parse
     }
 
     if (!isRequestRelative(request)) {

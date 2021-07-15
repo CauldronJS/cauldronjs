@@ -14,7 +14,7 @@ import com.cauldronjs.isolate.Isolate;
 import org.graalvm.polyglot.Value;
 
 public class IsolateBindingProvider implements BindingProvider {
-  public static String BOUND_VALUE_FIELD = "$$isBound";
+  static String BOUND_VALUE_FIELD = "$$isBound";
 
   final Isolate isolate;
   final HashMap<String, Object> bindings = new HashMap<>();
@@ -146,3 +146,5 @@ public class IsolateBindingProvider implements BindingProvider {
     return value;
   }
 }
+
+// I love you Justin :> <3

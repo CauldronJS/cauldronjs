@@ -15,7 +15,7 @@ const constants = {
   kTriggerAsyncId: 9,
   kDefaultTriggerAsyncId: 10,
   kStackLength: 11,
-  kUidFieldsCount: 12
+  kUidFieldsCount: 12,
 };
 
 // Each index tracks the number of hooks for the field types
@@ -26,21 +26,21 @@ const async_hook_fields = {
   [constants.kDestroy]: 0,
   [constants.kTotals]: 0,
   [constants.kPromiseResolve]: 0,
-  [constants.kCheck]: 0
+  [constants.kCheck]: 0,
 };
 // Each index contains the IDs for the various states
 const async_id_fields = {
   [constants.kExecutionAsyncId]: {},
   [constants.kTriggerAsyncId]: {},
   [constants.kAsyncIdCounter]: {},
-  [constants.kDefaultTriggerAsyncId]: {}
+  [constants.kDefaultTriggerAsyncId]: {},
 };
 const owner_symbol = Symbol('asyncWrapOwner');
 
 const pushAsyncIds = (asyncId, triggerAsyncId) => {
   // push the async ID to the running tasks collection
 };
-const popAsyncIds = asyncId => {
+const popAsyncIds = (asyncId) => {
   // get the trigger async ID that matches the async ID pair
 };
 const clearAsyncIdStack = () => {
@@ -85,5 +85,5 @@ module.exports = {
   disablePromiseHook,
   registerDestroyHook,
   setupHooks,
-  constants
+  constants,
 };

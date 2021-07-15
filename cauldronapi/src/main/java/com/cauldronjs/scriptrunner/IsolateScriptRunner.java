@@ -114,6 +114,5 @@ public class IsolateScriptRunner implements ScriptRunner {
 
   private void handleExecutionEnter(ExecutionEvent executionEvent) {
     // TODO: verify the safety of the calls being made
-    
   }
 }
